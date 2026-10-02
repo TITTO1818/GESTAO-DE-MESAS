@@ -98,11 +98,21 @@ wss.on('connection', (ws: WebSocket) => {
         const tableIndex = tables.findIndex((t) => t.id === payload.id);
         if (tableIndex !== -1) {
           const current = tables[tableIndex];
-          const nextOccupied = !current.isOccupied;
+          const nextOccupied =
+            typeof payload.isOccupied === 'boolean'
+              ? payload.isOccupied
+              : !current.isOccupied;
+          const nextOccupiedAt =
+            typeof payload.occupiedAt !== 'undefined'
+              ? payload.occupiedAt
+              : nextOccupied
+              ? Date.now()
+              : null;
+
           const updatedTable: TableData = {
             ...current,
             isOccupied: nextOccupied,
-            occupiedAt: nextOccupied ? Date.now() : null,
+            occupiedAt: nextOccupiedAt,
           };
           tables[tableIndex] = updatedTable;
           saveStateToDisk();

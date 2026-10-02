@@ -4,7 +4,6 @@ import {
   doc,
   onSnapshot,
   setDoc,
-  updateDoc,
   writeBatch,
 } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../firebase.ts';
@@ -39,6 +38,12 @@ export function useRealtimeTables() {
     }
     return generateInitialTables();
   });
+
+  // Maintain a synchronous ref to tables to prevent race conditions during rapid taps
+  const tablesRef = useRef<TableData[]>(tables);
+  useEffect(() => {
+    tablesRef.current = tables;
+  }, [tables]);
 
   const [isConnected, setIsConnected] = useState<boolean>(true);
   const [connectedClients, setConnectedClients] = useState<number>(1);
@@ -136,6 +141,7 @@ export function useRealtimeTables() {
             : def;
         });
 
+        tablesRef.current = mergedTables;
         setTables(mergedTables);
         setIsConnected(true);
       },
@@ -176,6 +182,16 @@ export function useRealtimeTables() {
             if (typeof data.connectedClients === 'number') {
               setConnectedClients(data.connectedClients);
             }
+            if (data.type === 'table:updated' && data.table) {
+              const updated: TableData = data.table;
+              tablesRef.current = tablesRef.current.map((t) =>
+                t.id === updated.id ? { ...t, ...updated } : t
+              );
+              setTables([...tablesRef.current]);
+            } else if (data.type === 'tables:reset' && Array.isArray(data.tables)) {
+              tablesRef.current = data.tables;
+              setTables(data.tables);
+            }
           } catch {
             // ignore
           }
@@ -204,37 +220,37 @@ export function useRealtimeTables() {
   // Toggle single table status in Firestore
   const toggleTable = useCallback(
     async (id: number) => {
-      let nextStatus = false;
-      let targetTable: TableData | undefined;
+      // 1. Read directly from synchronous ref so multiple tables can be toggled without race conditions
+      const current = tablesRef.current.find((t) => t.id === id);
+      if (!current) return;
 
-      // 1. Optimistic local update for immediate UI response (0ms lag)
-      setTables((prev) => {
-        targetTable = prev.find((t) => t.id === id);
-        if (!targetTable) return prev;
-        nextStatus = !targetTable.isOccupied;
+      const nextStatus = !current.isOccupied;
+      const nextOccupiedAt = nextStatus ? Date.now() : null;
 
-        return prev.map((t) => {
-          if (t.id === id) {
-            return {
+      // 2. Update ref and local state immediately (0ms visual latency)
+      tablesRef.current = tablesRef.current.map((t) =>
+        t.id === id
+          ? {
               ...t,
               isOccupied: nextStatus,
-              occupiedAt: nextStatus ? Date.now() : null,
-            };
-          }
-          return t;
-        });
-      });
+              occupiedAt: nextOccupiedAt,
+            }
+          : t
+      );
+      setTables([...tablesRef.current]);
 
-      // Play audio feedback
+      // 3. Audio feedback
       playToggleSound(nextStatus, soundEnabled);
 
-      // 2. Broadcast via WebSocket if available
+      // 4. Broadcast via WebSocket if available
       if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
         try {
           wsRef.current.send(
             JSON.stringify({
               type: 'table:toggle',
               id,
+              isOccupied: nextStatus,
+              occupiedAt: nextOccupiedAt,
             })
           );
         } catch {
@@ -242,73 +258,43 @@ export function useRealtimeTables() {
         }
       }
 
-      // 3. Persist to Firebase Firestore
+      // 5. Persist to Firebase Firestore
       const tableRef = doc(db, 'tables', String(id));
-      const chairsCount = targetTable ? targetTable.chairs : 4;
-      const currentNote = targetTable?.note || '';
-
       try {
         await setDoc(
           tableRef,
           {
-            id,
-            chairs: chairsCount,
+            id: current.id,
+            chairs: current.chairs,
             isOccupied: nextStatus,
-            occupiedAt: nextStatus ? Date.now() : null,
-            note: currentNote,
+            occupiedAt: nextOccupiedAt,
+            note: current.note || '',
             updatedAt: new Date().toISOString(),
           },
           { merge: true }
         );
       } catch (err) {
-        handleFirestoreError(err, OperationType.WRITE, `tables/${id}`);
+        console.error(`Erro ao salvar mesa ${id} no Firestore:`, err);
+        try {
+          handleFirestoreError(err, OperationType.WRITE, `tables/${id}`);
+        } catch {
+          // handled
+        }
       }
     },
     [soundEnabled]
   );
 
-  // Update note for a table in Firestore
-  const saveNote = useCallback(async (id: number, note: string) => {
-    // Optimistic local update
-    setTables((prev) => prev.map((t) => (t.id === id ? { ...t, note } : t)));
-
-    // Send via WebSocket
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      try {
-        wsRef.current.send(
-          JSON.stringify({
-            type: 'table:note',
-            id,
-            note,
-          })
-        );
-      } catch {
-        // ignore
-      }
-    }
-
-    // Persist to Firebase Firestore
-    const tableRef = doc(db, 'tables', String(id));
-    try {
-      await updateDoc(tableRef, {
-        note,
-        updatedAt: new Date().toISOString(),
-      });
-    } catch (err) {
-      handleFirestoreError(err, OperationType.UPDATE, `tables/${id}`);
-    }
-  }, []);
-
   // Reset all tables in Firestore
   const resetAllTables = useCallback(async () => {
     // Optimistic local update
-    setTables((prev) =>
-      prev.map((t) => ({
-        ...t,
-        isOccupied: false,
-        occupiedAt: null,
-      }))
-    );
+    const resetList = tablesRef.current.map((t) => ({
+      ...t,
+      isOccupied: false,
+      occupiedAt: null,
+    }));
+    tablesRef.current = resetList;
+    setTables(resetList);
 
     // Send via WebSocket
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
@@ -326,7 +312,7 @@ export function useRealtimeTables() {
     // Persist to Firebase Firestore with batch write
     try {
       const batch = writeBatch(db);
-      tables.forEach((t) => {
+      resetList.forEach((t) => {
         const tableRef = doc(db, 'tables', String(t.id));
         batch.set(
           tableRef,
@@ -343,9 +329,13 @@ export function useRealtimeTables() {
       });
       await batch.commit();
     } catch (err) {
-      handleFirestoreError(err, OperationType.WRITE, 'tables');
+      try {
+        handleFirestoreError(err, OperationType.WRITE, 'tables');
+      } catch {
+        // handled
+      }
     }
-  }, [tables]);
+  }, []);
 
   const toggleSound = useCallback(() => {
     setSoundEnabled((prev) => {
@@ -366,7 +356,6 @@ export function useRealtimeTables() {
     soundEnabled,
     toggleSound,
     toggleTable,
-    saveNote,
     resetAllTables,
   };
 }

@@ -11,11 +11,9 @@ service cloud.firestore {
     }
 
     function isValidTable(data) {
-      return data.keys().hasAll(['id', 'chairs', 'isOccupied']) &&
-             data.keys().hasOnly(['id', 'chairs', 'isOccupied', 'occupiedAt', 'note', 'updatedAt']) &&
-             data.id is number && data.id >= 1 && data.id <= 53 &&
-             data.chairs is number && data.chairs >= 1 && data.chairs <= 12 &&
+      return data.id is number && data.id >= 1 && data.id <= 53 &&
              data.isOccupied is bool &&
+             (!('chairs' in data) || (data.chairs is number && data.chairs >= 1 && data.chairs <= 20)) &&
              (!('note' in data) || (data.note is string && data.note.size() <= 500)) &&
              (!('occupiedAt' in data) || data.occupiedAt == null || data.occupiedAt is number) &&
              (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 100));
