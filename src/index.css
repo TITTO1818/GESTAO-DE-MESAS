@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+:root {
+  --cor-livre: #44eb87; 
+  --cor-ocupada: #ff4d4d;
+  --cor-fundo-escuro: #0a0a0a;
+  --cor-brasas: #4b0d05;
+  --cor-fogo: #ff6a00;
+  --cor-texto-mesa: #000000;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--cor-fundo-escuro);
+  background-image: radial-gradient(circle at 50% 0%, #4b0d05 0%, #200603 35%, #0a0a0a 85%);
+  background-attachment: fixed;
+  color: white;
+  min-height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom glow effects for ember theme */
+.title-fogo {
+  color: var(--cor-fogo);
+  text-shadow: 0 0 20px rgba(255, 106, 0, 0.45), 0 0 40px rgba(255, 75, 0, 0.2);
+}
+
+.mesa-btn {
+  aspect-ratio: 1 / 1;
+  transition: transform 0.1s ease-in-out, filter 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mesa-btn:active {
+  transform: scale(0.92);
+}
+
+.mesa-livre {
+  background-color: var(--cor-livre);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.25);
+}
+
+.mesa-livre:hover {
+  filter: brightness(1.04);
+  box-shadow: 0 8px 24px rgba(68, 235, 135, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.mesa-ocupada {
+  background-color: var(--cor-ocupada);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.mesa-ocupada:hover {
+  filter: brightness(1.04);
+  box-shadow: 0 8px 24px rgba(255, 77, 77, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}

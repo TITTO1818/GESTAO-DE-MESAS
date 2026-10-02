@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 10 && id.matches('^[0-9]+$');
+    }
+
+    function isValidTable(data) {
+      return data.keys().hasAll(['id', 'chairs', 'isOccupied']) &&
+             data.keys().hasOnly(['id', 'chairs', 'isOccupied', 'occupiedAt', 'note', 'updatedAt']) &&
+             data.id is number && data.id >= 1 && data.id <= 53 &&
+             data.chairs is number && data.chairs >= 1 && data.chairs <= 12 &&
+             data.isOccupied is bool &&
+             (!('note' in data) || (data.note is string && data.note.size() <= 500)) &&
+             (!('occupiedAt' in data) || data.occupiedAt == null || data.occupiedAt is number) &&
+             (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 100));
+    }
+
+    match /tables/{tableId} {
+      allow read: if true;
+      allow create, update: if isValidId(tableId) && isValidTable(request.resource.data);
+      allow delete: if false;
+    }
+  }
+}

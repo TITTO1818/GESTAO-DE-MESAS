@@ -1,0 +1,359 @@
+[
+  {
+    "id": 1,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 2,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 3,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 4,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 5,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 6,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 7,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 8,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 9,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 10,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 11,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 12,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 14,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 15,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 16,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 17,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 18,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 19,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 20,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 21,
+    "chairs": 4,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 22,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 23,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 25,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 26,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 27,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 28,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 29,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 30,
+    "chairs": 6,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 31,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 32,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 33,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 34,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 35,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 36,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 37,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 38,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 39,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 40,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 41,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 42,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 43,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 44,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 45,
+    "chairs": 2,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 46,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 47,
+    "chairs": 2,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 48,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 49,
+    "chairs": 2,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 50,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 51,
+    "chairs": 2,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 52,
+    "chairs": 3,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  },
+  {
+    "id": 53,
+    "chairs": 7,
+    "isOccupied": false,
+    "occupiedAt": null,
+    "note": ""
+  }
+]

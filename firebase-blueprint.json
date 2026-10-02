@@ -1,0 +1,43 @@
+{
+  "entities": {
+    "Table": {
+      "title": "Table",
+      "description": "Representa o estado de uma mesa do restaurante El Cardal Parrilla e Bar.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "Número identificador da mesa (1 a 53)"
+        },
+        "chairs": {
+          "type": "number",
+          "description": "Capacidade de cadeiras da mesa"
+        },
+        "isOccupied": {
+          "type": "boolean",
+          "description": "Status de ocupação da mesa: true para ocupada, false para livre"
+        },
+        "occupiedAt": {
+          "type": "number",
+          "description": "Timestamp milissegundos em que a mesa foi marcada como ocupada"
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Anotação opcional com nome de cliente ou detalhes da reserva"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Data e hora ISO da última atualização"
+        }
+      },
+      "required": ["id", "chairs", "isOccupied"]
+    }
+  },
+  "firestore": {
+    "/tables/{tableId}": {
+      "schema": "Table",
+      "description": "Coleção de mesas do restaurante com status em tempo real sincronizado entre todos os usuários."
+    }
+  }
+}

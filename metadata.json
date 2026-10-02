@@ -1,0 +1,6 @@
+{
+  "name": "El Cardal Parrilla e Bar - Gestão de Mesas",
+  "description": "Sistema de controle e monitoramento de status de mesas do restaurante El Cardal Parrilla e Bar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
