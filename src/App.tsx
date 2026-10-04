@@ -6,29 +6,37 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { FilterStatus } from './types.ts';
 import { useRealtimeTables } from './hooks/useRealtimeTables.ts';
+import { useRealtimeWaitlist } from './hooks/useRealtimeWaitlist.ts';
 import { Header } from './components/Header.tsx';
 import { StatsBar } from './components/StatsBar.tsx';
 import { FilterBar } from './components/FilterBar.tsx';
 import { TableCard } from './components/TableCard.tsx';
 import { ConfirmModal } from './components/ConfirmModal.tsx';
-import { ShareModal } from './components/ShareModal.tsx';
+import { WaitlistModal } from './components/WaitlistModal.tsx';
 
 export default function App() {
   const {
     tables,
     isConnected,
-    connectedClients,
     soundEnabled,
     toggleSound,
     toggleTable,
     resetAllTables,
   } = useRealtimeTables();
 
+  const {
+    items: waitlistItems,
+    addItem: addWaitlistItem,
+    toggleItem: toggleWaitlistItem,
+    deleteItem: deleteWaitlistItem,
+    clearCompleted: clearCompletedWaitlist,
+  } = useRealtimeWaitlist();
+
   const [statusFilter, setStatusFilter] = useState<FilterStatus>('todas');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
 
   // Clean table statistics: Free vs Occupied
   const stats = useMemo(() => {
@@ -74,16 +82,15 @@ export default function App() {
   }, [resetAllTables]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center pb-16 selection:bg-orange-500 selection:text-black">
-      {/* Header with real-time status and QR connection */}
+    <div className="min-h-screen flex flex-col items-center pb-8 selection:bg-orange-500 selection:text-black">
+      {/* Header with real-time status and prominent Fila de Espera button */}
       <Header
         soundEnabled={soundEnabled}
         onToggleSound={toggleSound}
         onRequestReset={() => setIsResetConfirmOpen(true)}
         occupiedCount={stats.occupiedTables}
         isConnected={isConnected}
-        connectedClients={connectedClients}
-        onOpenShareModal={() => setIsShareModalOpen(true)}
+        onOpenWaitlist={() => setIsWaitlistOpen(true)}
       />
 
       {/* Clean Stats Bar (Livres e Ocupadas) */}
@@ -102,7 +109,7 @@ export default function App() {
       />
 
       {/* Main Tables Grid */}
-      <main className="w-full max-w-[1100px] px-4 flex-1">
+      <main className="w-full max-w-[1100px] px-2 sm:px-4 flex-1">
         {filteredTables.length === 0 ? (
           <div className="text-center py-16 bg-black/40 rounded-2xl border border-neutral-800 my-6">
             <p className="text-neutral-400 font-semibold text-lg">
@@ -120,7 +127,7 @@ export default function App() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3 sm:gap-4 w-full">
+          <div className="grid grid-cols-5 md:grid-cols-10 gap-1.5 sm:gap-2 w-full">
             {filteredTables.map((table) => (
               <TableCard
                 key={table.id}
@@ -142,11 +149,15 @@ export default function App() {
         onCancel={() => setIsResetConfirmOpen(false)}
       />
 
-      {/* Share / QR Code Modal to connect another phone */}
-      <ShareModal
-        isOpen={isShareModalOpen}
-        onClose={() => setIsShareModalOpen(false)}
-        connectedClients={connectedClients}
+      {/* Fila de Espera Modal (iPhone Notes Style Checklist) */}
+      <WaitlistModal
+        isOpen={isWaitlistOpen}
+        onClose={() => setIsWaitlistOpen(false)}
+        items={waitlistItems}
+        onAddItem={addWaitlistItem}
+        onToggleItem={toggleWaitlistItem}
+        onDeleteItem={deleteWaitlistItem}
+        onClearCompleted={clearCompletedWaitlist}
       />
     </div>
   );

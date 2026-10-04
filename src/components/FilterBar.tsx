@@ -16,15 +16,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onSearchChange,
 }) => {
   return (
-    <div className="w-full max-w-4xl px-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div className="w-full max-w-4xl px-3 mb-2.5 flex flex-col sm:flex-row items-center justify-between gap-2">
       {/* Status Segmented Buttons */}
-      <div className="flex items-center bg-black/60 p-1.5 rounded-xl border border-neutral-800 w-full sm:w-auto">
+      <div className="flex items-center bg-black/60 p-1 rounded-lg border border-neutral-800 w-full sm:w-auto">
         <button
           type="button"
           onClick={() => onChangeStatusFilter('todas')}
-          className={`flex-1 sm:flex-initial px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer ${
+          className={`flex-1 sm:flex-initial px-3 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
             statusFilter === 'todas'
-              ? 'bg-[#ff6a00] text-black shadow-md'
+              ? 'bg-[#ff6a00] text-black shadow-xs'
               : 'text-neutral-400 hover:text-white'
           }`}
         >
@@ -33,9 +33,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         <button
           type="button"
           onClick={() => onChangeStatusFilter('livres')}
-          className={`flex-1 sm:flex-initial px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer ${
+          className={`flex-1 sm:flex-initial px-3 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
             statusFilter === 'livres'
-              ? 'bg-[#44eb87] text-black shadow-md'
+              ? 'bg-[#44eb87] text-black shadow-xs'
               : 'text-neutral-400 hover:text-white'
           }`}
         >
@@ -44,9 +44,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         <button
           type="button"
           onClick={() => onChangeStatusFilter('ocupadas')}
-          className={`flex-1 sm:flex-initial px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer ${
+          className={`flex-1 sm:flex-initial px-3 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
             statusFilter === 'ocupadas'
-              ? 'bg-[#ff4d4d] text-black shadow-md'
+              ? 'bg-[#ff4d4d] text-black shadow-xs'
               : 'text-neutral-400 hover:text-white'
           }`}
         >
@@ -55,23 +55,23 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       </div>
 
       {/* Search by Table Number */}
-      <div className="relative w-full sm:w-52">
-        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+      <div className="relative w-full sm:w-44">
+        <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400" />
         <input
           type="text"
           inputMode="numeric"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Buscar nº da mesa..."
-          className="w-full pl-9 pr-8 py-2 bg-black/60 border border-neutral-800 rounded-xl text-xs sm:text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#ff6a00]"
+          placeholder="Buscar mesa..."
+          className="w-full pl-8 pr-7 py-1 bg-black/60 border border-neutral-800 rounded-lg text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-[#ff6a00]"
         />
         {searchQuery && (
           <button
             type="button"
             onClick={() => onSearchChange('')}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white cursor-pointer"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white cursor-pointer"
           >
-            <X className="w-4 h-4" />
+            <X className="w-3.5 h-3.5" />
           </button>
         )}
       </div>

@@ -32,12 +32,57 @@
         }
       },
       "required": ["id", "chairs", "isOccupied"]
+    },
+    "WaitlistItem": {
+      "title": "WaitlistItem",
+      "description": "Item da lista de espera do restaurante estilo checklist do Bloco de Notas do iPhone.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identificador único do item da fila de espera"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Nome do cliente na fila de espera"
+        },
+        "places": {
+          "type": "number",
+          "description": "Quantidade de lugares solicitados"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Indica se o item foi marcado no checklist"
+        },
+        "order": {
+          "type": "number",
+          "description": "Prioridade de ordenação na lista (para posicionar no topo ao desmarcar)"
+        },
+        "completedAt": {
+          "type": "number",
+          "description": "Timestamp em que o item foi concluído"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Data ISO de criação"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Data ISO da última modificação"
+        }
+      },
+      "required": ["id", "name", "places", "completed", "order"]
     }
   },
   "firestore": {
     "/tables/{tableId}": {
       "schema": "Table",
       "description": "Coleção de mesas do restaurante com status em tempo real sincronizado entre todos os usuários."
+    },
+    "/waitlist/{itemId}": {
+      "schema": "WaitlistItem",
+      "description": "Coleção de itens da lista de espera em formato de checklist interativo sincronizado."
     }
   }
 }

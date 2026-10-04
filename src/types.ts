@@ -7,3 +7,14 @@ export interface TableData {
 }
 
 export type FilterStatus = 'todas' | 'livres' | 'ocupadas';
+
+export interface WaitlistItem {
+  id: string;
+  name: string;
+  places: number;
+  completed: boolean;
+  order: number;
+  completedAt?: number | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
