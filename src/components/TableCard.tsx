@@ -33,7 +33,7 @@ export const TableCard: React.FC<TableCardProps> = ({
           table.isOccupied ? 'mesa-ocupada' : 'mesa-livre'
         }`}
         style={{ color: 'var(--cor-texto-mesa)' }}
-        aria-label={`Mesa ${table.id}, status: ${table.isOccupied ? 'Ocupada' : 'Livre'}`}
+        aria-label={`Mesa ${table.id} (${table.chairs} lugares), status: ${table.isOccupied ? 'Ocupada' : 'Livre'}`}
       >
         {/* Table Number */}
         <span
@@ -53,6 +53,14 @@ export const TableCard: React.FC<TableCardProps> = ({
         >
           {table.isOccupied ? 'OCUPADA' : 'LIVRE'}
         </span>
+
+        {/* Chair Capacity badge at top-right */}
+        <div
+          title={`${table.chairs} lugares`}
+          className="absolute top-0.5 right-0.5 flex items-center text-[7.5px] sm:text-[8.5px] font-black text-black/85 bg-black/15 backdrop-blur-xs px-0.5 py-0.2 rounded pointer-events-none"
+        >
+          {table.chairs}L
+        </div>
 
         {/* Elapsed time indicator when occupied */}
         {table.isOccupied && elapsedTime && (
